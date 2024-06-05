@@ -127,9 +127,6 @@ def main():
     all_address_df['Updated City'] = all_address_df['Updated City'].fillna('').apply(clean_city)
     startwith_zero_df['Updated City'] = startwith_zero_df['Updated City'].fillna('').apply(clean_city)
     
-
-
-
     logger.debug('Populate data from other column')
     # transfer data from another column based on word. 
     # replace wilayah persekutuan with data from mailing city
@@ -186,8 +183,6 @@ def main():
         df.drop(columns=['Mailing Street Test'], inplace=True)
 
         # if state blank, run code to find the zipcode in the dictionary. 
-        
-        
         def update_state(df, state_zipcode):
             
             # Ensure the columns exist in the DataFrame
@@ -206,28 +201,21 @@ def main():
         # Apply the function to update blank 'State' entries
         df = update_state(df, zipcode)
         
-
-
-
-
         return df
     
     all_address_df = populate_data_from_other_column(all_address_df)
     startwith_zero_df = populate_data_from_other_column(startwith_zero_df)
     
-
-    
-    
     # capitalize spelling
     all_address_df[columns_to_clean] = all_address_df[columns_to_clean].apply(lambda x : x.str.title())
     startwith_zero_df[columns_to_clean] = startwith_zero_df[columns_to_clean].apply(lambda x : x.str.title())
     
-
     logger.debug('Saving cleaned data to file')
     all_address_df.to_csv(os.path.join(folder_path, 'To clean - all address - result.csv'), index=False)
     startwith_zero_df.to_excel(os.path.join(folder_path, 'To clean - postal code starts with 0 - result.xlsx'), index=False)
 
-    logger.info('Process completed. ')
+    logger.info('Process completed.')
+    logger.info('Please check the data.')
    
 
 
