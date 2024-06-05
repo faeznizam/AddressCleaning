@@ -216,7 +216,7 @@ def main():
 
     logger.info('Process completed.')
     logger.info('Please check the data.')
-   
+    logger.info('Please check the data again.')
 
 
 if __name__ == '__main__':
