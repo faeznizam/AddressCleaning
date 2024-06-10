@@ -27,8 +27,8 @@ state_cleanup = {
     'negeri sembilan': set([
         'negeri seremban','nsembilan'
         ]),
-    'pulau pinang': set([
-        'penang', 'pinang', 'pulang pinang', 'ppinang'
+    'penang': set([
+        'pinang', 'pulang pinang', 'ppinang', 'pulau pinang'
         ]),
     'sarawak': set([
         'sarawaka'
@@ -52,7 +52,7 @@ country_list = ['brunei', 'malaysia', 'usa', 'singapore']
 
 # list of state name malaysia state name
 malaysia_state = [
-    'pulau pinang', 'kedah', 'kelantan', 'terengganu', 'pahang', 'perak', 'selangor', 'kuala lumpur',
+    'penang', 'kedah', 'kelantan', 'terengganu', 'pahang', 'perak', 'selangor', 'kuala lumpur',
     'putrajaya', 'negeri sembilan', 'melaka', 'johor', 'labuan', 'sabah', 'sarawak', 'perlis'
 ]
 
@@ -60,7 +60,7 @@ def main():
     logger.info('Starting the address cleaning script')
 
     # get file paths
-    folder_path = r'C:\Users\mfmohammad\OneDrive - UNICEF\Documents\Codes\clean_address_project\test data'
+    folder_path = r'C:\Users\mfmohammad\OneDrive - UNICEF\Documents\Codes\AddressCleaning\test_data'
     all_address_filepath = os.path.join(folder_path, 'To clean - all address.csv')
     startwith_zero_filepath = os.path.join(folder_path, 'To clean - postal code starts with 0.xlsx' )
 
@@ -209,14 +209,29 @@ def main():
     # capitalize spelling
     all_address_df[columns_to_clean] = all_address_df[columns_to_clean].apply(lambda x : x.str.title())
     startwith_zero_df[columns_to_clean] = startwith_zero_df[columns_to_clean].apply(lambda x : x.str.title())
+
+    def merge_city_column(row):
+        # concat data from updated city 2 and updated city if there is data. 
+
+        if row['Updated City 2'] != '':
+            return row['Updated City'] + ", " + row['Updated City 2']
+        else:
+            return row['Updated City']
+
+    all_address_df['Updated City'] = all_address_df.apply(merge_city_column, axis=1)
+    startwith_zero_df['Updated City'] = startwith_zero_df.apply(merge_city_column, axis=1)
+
+
+    all_address_df2 = all_address_df.drop(['Mailing City', 'Mailing State/Province', 'Mailing Zip/Postal Code', 'Mailing Country'], axis=1)
+    startwith_zero_df2 = startwith_zero_df.drop(['Mailing City', 'Mailing State/Province', 'Mailing Zip/Postal Code', 'Mailing Country'], axis=1)
     
     logger.debug('Saving cleaned data to file')
     all_address_df.to_csv(os.path.join(folder_path, 'To clean - all address - result.csv'), index=False)
     startwith_zero_df.to_excel(os.path.join(folder_path, 'To clean - postal code starts with 0 - result.xlsx'), index=False)
+    all_address_df2.to_csv(os.path.join(folder_path, 'To clean - all address - finished.csv'), index=False)
+    startwith_zero_df2.to_excel(os.path.join(folder_path, 'To clean - postal code starts with 0 - finished.xlsx'), index=False)
 
     logger.info('Process completed.')
-    logger.info('Please check the data.')
-    logger.info('Please check the data again.')
 
 
 if __name__ == '__main__':
