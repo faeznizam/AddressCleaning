@@ -1,7 +1,7 @@
 
 def malaysia_city_list():
     cities = [
-    "City", "Pulau Pinang", "Balik Pulau", "Batu Ferringhi", "Tanjung Bungah", "Penang Hill",
+    "Pulau Pinang", "Balik Pulau", "Batu Ferringhi", "Tanjung Bungah", "Penang Hill",
     "Ayer Itam", "Jelutong", "Gelugor", "USM Pulau Pinang", "Bayan Lepas", "Batu Maung",
     "Butterworth", "Penaga", "Kepala Batas", "Tasek Gelugor", "Permatang Pauh", "Perai",
     "Bukit Mertajam", "Simpang Ampat", "Sungai Jawi", "Bandar Baharu", "Nibong Tebal", "Kubang Semang",
